@@ -3,9 +3,10 @@
 declare(strict_types=1);
 
 namespace App\Dto;
+
 use Symfony\Component\Validator\Constraints as Assert;
 
-class PriceDto
+class PriceRequest
 {
     private const COUPONS = [
         'XXX' => 10,
@@ -14,6 +15,9 @@ class PriceDto
         'GRANNY' => 30,
         'MAXIM' => 90,
     ];
+
+    private int $discount = 0;
+
     public function __construct(
         #[Assert\NotBlank]
         #[Assert\GreaterThanOrEqual(1)]
@@ -25,13 +29,19 @@ class PriceDto
 
         #[Assert\Choice(callback: 'getCouponCodes')]
         public readonly ?string $couponCode
-    )
-    {
-
+    ) {
+        if ($couponCode) {
+            $this->discount = self::COUPONS[$couponCode];
+        }
     }
 
     public static function getCouponCodes(): array
     {
         return array_keys(self::COUPONS);
+    }
+
+    public function getDiscount(): int
+    {
+        return $this->discount;
     }
 }
