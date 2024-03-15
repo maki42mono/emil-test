@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace App\Dto;
 
+use App\Entity\Product;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class PriceRequest
 {
+//    todo: там 2 типа купонов
+// todo: в базе хранить
     private const COUPONS = [
         'XXX' => 10,
         'HAPPY' => 15,
@@ -28,7 +31,7 @@ class PriceRequest
         public readonly string $taxNumber,
 
         #[Assert\Choice(callback: 'getCouponCodes')]
-        public readonly ?string $couponCode
+        public readonly ?string $couponCode,
     ) {
         if ($couponCode) {
             $this->discount = self::COUPONS[$couponCode];

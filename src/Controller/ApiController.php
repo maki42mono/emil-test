@@ -2,9 +2,9 @@
 
 namespace App\Controller;
 
+use App\Builder\CalculatePriceBuilder;
 use App\Dto\PriceRequest;
 use App\Dto\PriceResponse;
-use App\Repository\ProductRepository;
 use App\Service\PriceService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,19 +15,16 @@ use Systemeio\TestForCandidates\PaymentProcessor\StripePaymentProcessor;
 
 class ApiController extends AbstractController
 {
-    #[Route('/calculate-price', methods: ['POST', 'GET'])]
+    #[Route('/calculate-price', methods: ['POST'])]
     public function calculatePrice(
         #[MapRequestPayload] PriceRequest $priceDto,
-        ProductRepository $productRepository,
-        PriceService $priceService
+        PriceService $priceService,
+        CalculatePriceBuilder $calculatePriceBuilder
     ): Response
     {
-        $product = $productRepository->find($priceDto->product);
-        if (empty($product)) {
-            return $this->json(['error' => 'Product not found'], 404);
-        }
-
-        $priceResponse = new PriceResponse($priceService->calculatePrice($priceDto, $product));
+//        todo: ловить ошибку
+        $calculatePrice = $calculatePriceBuilder->buildFromPriceRequestDto($priceDto);
+        $priceResponse = new PriceResponse($priceService->calculatePrice($calculatePrice));
         return $this->json($priceResponse);
     }
 

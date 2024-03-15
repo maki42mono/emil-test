@@ -6,11 +6,12 @@ namespace App\Service;
 
 use App\Dto\PriceRequest;
 use App\Entity\Product;
+use App\Model\CalculatePriceModel;
 
 class PriceService
 {
-    public function calculatePrice(PriceRequest $priceDto, Product $product): int
+    public function calculatePrice(CalculatePriceModel $calculatePrice): int
     {
-        return $product->getPrice() * (100 - $priceDto->getDiscount()) / 100;
+        return $calculatePrice->product->getPrice() * (100 - $calculatePrice->priceRequest->getDiscount()) / 100;
     }
 }
