@@ -10,7 +10,6 @@ abstract class AbstractPublicException extends Exception
 {
     public function __construct(string $message, int $errorCode = null, public readonly array $payload = [])
     {
-//        dd($this->payload);
         parent::__construct($message, $errorCode);
     }
 }
