@@ -4,47 +4,35 @@ declare(strict_types=1);
 
 namespace App\Dto;
 
-use App\Entity\Product;
+use App\Repository\DiscountRepository;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class PriceRequest
 {
-//    todo: там 2 типа купонов
-// todo: в базе хранить
-    private const COUPONS = [
-        'XXX' => 10,
-        'HAPPY' => 15,
-        'HELLO' => 20,
-        'GRANNY' => 30,
-        'MAXIM' => 90,
-    ];
-
-    private int $discount = 0;
-
     public function __construct(
         #[Assert\NotBlank]
         #[Assert\GreaterThanOrEqual(1)]
-        public readonly int $product,
-
+        public readonly int $productId,
         #[Assert\NotBlank]
         #[Assert\Regex('/^DE\d{9}$|^IT\d{11}$|^FR\w{2}\d{9}$/')]
         public readonly string $taxNumber,
-
-        #[Assert\Choice(callback: 'getCouponCodes')]
         public readonly ?string $couponCode,
-    ) {
-        if ($couponCode) {
-            $this->discount = self::COUPONS[$couponCode];
+        private readonly DiscountRepository $discountRepository
+    )
+    {
+    }
+
+    #[Assert\Callback]
+    public function validate(ExecutionContextInterface $context, mixed $payload): void
+    {
+        $codes = $this->discountRepository->findAllCodes();
+        if (!array_key_exists($this->couponCode, $codes)) {
+            $context
+                ->buildViolation('The coupon is not valid')
+                ->atPath('couponCode')
+                ->addViolation()
+            ;
         }
-    }
-
-    public static function getCouponCodes(): array
-    {
-        return array_keys(self::COUPONS);
-    }
-
-    public function getDiscount(): int
-    {
-        return $this->discount;
     }
 }
