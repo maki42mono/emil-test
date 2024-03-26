@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Builder\CalculatePriceBuilder;
 use App\Dto\PriceRequest;
 use App\Dto\PriceResponse;
+use App\Repository\DiscountRepository;
 use App\Service\PriceService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,9 +18,10 @@ class ApiController extends AbstractController
 {
     #[Route('/calculate-price', methods: ['POST'])]
     public function calculatePrice(
+//        todo: ошибки https://inviqa.com/blog/guide-custom-error-handling-symfony
         #[MapRequestPayload] PriceRequest $priceDto,
         PriceService $priceService,
-        CalculatePriceBuilder $calculatePriceBuilder
+        CalculatePriceBuilder $calculatePriceBuilder,
     ): Response
     {
 //        todo: ловить ошибку
@@ -35,4 +37,5 @@ class ApiController extends AbstractController
 
         return $this->json([]);
     }
+
 }
