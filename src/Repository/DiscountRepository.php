@@ -26,10 +26,12 @@ class DiscountRepository extends ServiceEntityRepository
      */
     public function findAllCodes(): array
     {
-        return $this->createQueryBuilder('d')
+        $codes = $this->createQueryBuilder('d')
             ->select('d.code')
             ->getQuery()
-            ->getResult();
+            ->getScalarResult();
+
+        return array_flip(array_column($codes, 'code'));
     }
 
     public function findByCode(string $code): Discount

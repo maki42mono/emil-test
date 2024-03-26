@@ -20,7 +20,7 @@ class CalculatePriceBuilder
      */
     public function buildFromPriceRequestDto(PriceRequest $priceRequest): CalculatePriceModel
     {
-        $product = $this->productRepository->find($priceRequest->product);
+        $product = $this->productRepository->find($priceRequest->productId);
         if (!$product) {
             throw new Exception('Product not found');
         }
