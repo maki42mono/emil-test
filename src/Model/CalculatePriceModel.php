@@ -7,8 +7,6 @@ namespace App\Model;
 use App\Dto\PriceRequest;
 use App\Entity\Discount;
 use App\Entity\Product;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
-use Symfony\Component\Validator\Constraints as Assert;
 
 readonly class CalculatePriceModel
 {

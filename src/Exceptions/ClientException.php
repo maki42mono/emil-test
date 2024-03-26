@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Exceptions;
 
-use Exception;
-
 class ClientException extends AbstractPublicException
 {
     public const ERROR_NEGATIVE_DISCOUNT = 1;

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Listener;
 
 use App\Exceptions\AbstractPublicException;
-use App\Exceptions\PublicExceptionInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 

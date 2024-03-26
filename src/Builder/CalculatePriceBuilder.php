@@ -10,11 +10,11 @@ use App\Repository\DiscountRepository;
 use App\Repository\ProductRepository;
 use Exception;
 
-class CalculatePriceBuilder
+readonly class CalculatePriceBuilder
 {
     public function __construct(
-        private readonly ProductRepository $productRepository,
-        private readonly DiscountRepository $discountRepository
+        private ProductRepository $productRepository,
+        private DiscountRepository $discountRepository
     )
     {
     }
