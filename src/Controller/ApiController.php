@@ -6,6 +6,7 @@ use App\Builder\CalculatePriceBuilder;
 use App\Dto\PriceRequest;
 use App\Dto\PriceRequestOld;
 use App\Dto\PriceResponse;
+use App\Exceptions\ClientException;
 use App\Repository\DiscountRepository;
 use App\Service\PriceService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,31 +20,9 @@ use Systemeio\TestForCandidates\PaymentProcessor\StripePaymentProcessor;
 
 class ApiController extends AbstractController
 {
-    /*#[Route('/calculate-price-old', methods: ['POST'])]
-    public function calculatePriceOld(
-        Request $request,
-        PriceService $priceService,
-        CalculatePriceBuilder $calculatePriceBuilder,
-        DiscountRepository $discountRepository,
-        ValidatorInterface $validator
-    ): Response
-    {
-        $requestArray = $request->toArray();
-        $priceRequest = new PriceRequest(
-            $requestArray['product'],
-            $requestArray['taxNumber'],
-            $requestArray['couponCode'],
-            $discountRepository
-        );
-        $violations = $validator->validate($priceRequest);
-        if (count($violations) > 0) {
-            dd($violations);
-        }
-        $calculatePrice = $calculatePriceBuilder->buildFromPriceRequestDto($priceRequest);
-        $priceResponse = new PriceResponse($priceService->calculatePrice($calculatePrice));
-        return $this->json($priceResponse);
-    }*/
-
+    /**
+     * @throws ClientException
+     */
     #[Route('/calculate-price', methods: ['POST'])]
     public function calculatePrice(
         Request $request,
@@ -51,8 +30,7 @@ class ApiController extends AbstractController
         CalculatePriceBuilder $calculatePriceBuilder,
         DiscountRepository $discountRepository,
         ValidatorInterface $validator
-    ): Response
-    {
+    ): Response {
         $requestArray = $request->toArray();
         $priceRequest = new PriceRequest(
             $requestArray['product'],
@@ -62,19 +40,26 @@ class ApiController extends AbstractController
         );
         $violations = $validator->validate($priceRequest);
         if (count($violations) > 0) {
-            dd($violations);
+            $errorMessages = [];
+            foreach ($violations as $violation) {
+                $errorMessages[$violation->getPropertyPath()] = $violation->getMessage();
+            }
+            throw new ClientException('', ClientException::ERROR_REQUEST_DATA, $errorMessages);
         }
         $calculatePrice = $calculatePriceBuilder->buildFromPriceRequestDto($priceRequest);
         $priceResponse = new PriceResponse($priceService->calculatePrice($calculatePrice));
+
         return $this->json($priceResponse);
     }
 
     #[Route('/purchase', methods: ['POST'])]
-    public function purchase(Purchase $purchase, PaypalPaymentProcessor $paypalPaymentProcessor, StripePaymentProcessor $stripePaymentProcessor): Response
-    {
+    public function purchase(
+        Purchase $purchase,
+        PaypalPaymentProcessor $paypalPaymentProcessor,
+        StripePaymentProcessor $stripePaymentProcessor
+    ): Response {
         $paypalPaymentProcessor->pay(123);
 
         return $this->json([]);
     }
-
 }
