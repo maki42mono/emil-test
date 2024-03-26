@@ -8,17 +8,17 @@ use App\Repository\DiscountRepository;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class PriceRequest
+readonly class PriceRequest
 {
     public function __construct(
         #[Assert\NotBlank]
         #[Assert\GreaterThanOrEqual(1)]
-        public readonly int $productId,
+        public int $productId,
         #[Assert\NotBlank]
         #[Assert\Regex('/^DE\d{9}$|^IT\d{11}$|^FR\w{2}\d{9}$/')]
-        public readonly string $taxNumber,
-        public readonly ?string $couponCode,
-        private readonly DiscountRepository $discountRepository
+        public string $taxNumber,
+        public ?string $couponCode,
+        private DiscountRepository $discountRepository
     )
     {
     }

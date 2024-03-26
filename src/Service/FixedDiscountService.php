@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Exceptions\PublicException;
+use App\Exceptions\ClientException;
 
 class FixedDiscountService extends AbstractDiscountService
 {
     /**
-     * @throws PublicException
+     * @throws ClientException
      */
     public function getPriceWithDiscount(): int
     {
@@ -18,6 +18,6 @@ class FixedDiscountService extends AbstractDiscountService
             return $result;
         }
 
-        throw new PublicException(null, PublicException::ERROR_NEGATIVE_DISCOUNT);
+        throw new ClientException(null, ClientException::ERROR_NEGATIVE_DISCOUNT);
     }
 }
