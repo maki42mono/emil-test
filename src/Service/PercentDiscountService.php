@@ -11,7 +11,7 @@ class PercentDiscountService extends AbstractDiscountService
     public function getPriceWithDiscount(): PriceModel
     {
         $result = intval(
-            (100 - ($this->discount->getValue() / 100)) * $this->priceModel->price
+            (100 - ($this->discount->getValue() / 100)) * $this->priceModel->price / 10
         );
 
         return new PriceModel($result);

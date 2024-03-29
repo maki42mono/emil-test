@@ -47,7 +47,7 @@ class ApiController extends AbstractController
             throw new ClientException('', ClientException::REQUEST_DATA, $errorMessages);
         }
         $calculatePrice = $calculatePriceBuilder->buildFromPriceRequestDto($priceRequest);
-        $priceResponse = new PriceResponse($priceService->calculatePriceWithDiscount($calculatePrice));
+        $priceResponse = new PriceResponse($priceService->calculate($calculatePrice));
 
         return $this->json($priceResponse);
     }

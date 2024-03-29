@@ -11,20 +11,29 @@ use App\Model\PriceModel;
 
 readonly class PriceService
 {
-    private function calculatePriceWithDiscount(CalculatePriceModel $calculatePrice): PriceModel
+    public function calculate(CalculatePriceModel $calculatePrice): PriceModel
+    {
+        $calculatePrice = $this->calculatePriceWithDiscount($calculatePrice);
+
+        return $this->calculatePriceWithTax($calculatePrice)->getPriceModel();
+    }
+
+    private function calculatePriceWithDiscount(CalculatePriceModel $calculatePrice): CalculatePriceModel
     {
         $discount = $calculatePrice->discount;
         $priceModel = $calculatePrice->getPriceModel();
         if (empty($discount)) {
-            return $priceModel;
+            return $calculatePrice;
         }
         $discountService = DiscountServiceBuilder::getDiscountService($priceModel, $discount);
 
-        return $discountService->getPriceWithDiscount();
+        return $calculatePrice->setPriceModel($discountService->getPriceWithDiscount());
     }
 
-    private function calculatePriceWithTax(): PriceModel
+    private function calculatePriceWithTax(CalculatePriceModel $calculatePrice): CalculatePriceModel
     {
+        $price = intval($calculatePrice->getPriceModel()->price * (1 + $calculatePrice->getTaxPercent() / 100));
 
+        return $calculatePrice->setPriceModel(new PriceModel($price));
     }
 }
