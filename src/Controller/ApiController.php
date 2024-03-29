@@ -44,7 +44,7 @@ class ApiController extends AbstractController
             foreach ($violations as $violation) {
                 $errorMessages[$violation->getPropertyPath()] = $violation->getMessage();
             }
-            throw new ClientException('', ClientException::ERROR_REQUEST_DATA, $errorMessages);
+            throw new ClientException('', ClientException::REQUEST_DATA, $errorMessages);
         }
         $calculatePrice = $calculatePriceBuilder->buildFromPriceRequestDto($priceRequest);
         $priceResponse = new PriceResponse($priceService->calculatePrice($calculatePrice));

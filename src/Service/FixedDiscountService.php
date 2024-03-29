@@ -18,6 +18,6 @@ class FixedDiscountService extends AbstractDiscountService
             return $result;
         }
 
-        throw new ClientException(null, ClientException::ERROR_NEGATIVE_DISCOUNT);
+        throw new ClientException(null, ClientException::NEGATIVE_DISCOUNT);
     }
 }

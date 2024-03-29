@@ -26,3 +26,4 @@ services:
     App\Listener\ExceptionListener:
         tags:
             - { name: kernel.event_listener, event: kernel.exception }
+        arguments: ['%env(string:APP_ENV)%']

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Builder;
 
 use App\Dto\PriceRequest;
+use App\Exceptions\ClientException;
 use App\Model\CalculatePriceModel;
 use App\Repository\DiscountRepository;
 use App\Repository\ProductRepository;
@@ -20,13 +21,13 @@ readonly class CalculatePriceBuilder
     }
 
     /**
-     * @throws Exception
+     * @throws ClientException
      */
     public function buildFromPriceRequestDto(PriceRequest $priceRequest): CalculatePriceModel
     {
         $product = $this->productRepository->find($priceRequest->productId);
         if (!$product) {
-            throw new Exception('Product not found');
+            throw new ClientException('', ClientException::PRODUCT_NOT_FOUND);
         }
         $discount = $priceRequest->couponCode ? $this->discountRepository->findByCode($priceRequest->couponCode) : null;
         return new CalculatePriceModel($priceRequest, $product, $discount);

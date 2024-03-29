@@ -6,11 +6,13 @@ namespace App\Exceptions;
 
 class ClientException extends AbstractPublicException
 {
-    public const ERROR_NEGATIVE_DISCOUNT = 1;
-    public const ERROR_REQUEST_DATA = 2;
+    public const NEGATIVE_DISCOUNT = 1;
+    public const REQUEST_DATA = 2;
+    public const PRODUCT_NOT_FOUND = 3;
     private const ERROR_MESSAGES = [
-        self::ERROR_NEGATIVE_DISCOUNT => "You can't use this coupon. The price can't be less than 0",
-        self::ERROR_REQUEST_DATA => "Incorrect request data",
+        self::NEGATIVE_DISCOUNT => "You can't use this coupon. The price can't be less than 0",
+        self::REQUEST_DATA => "Incorrect request data",
+        self::PRODUCT_NOT_FOUND => "Product not found",
     ];
 
     public function __construct(?string $message, int $errorCode = null, array $payload = [])
