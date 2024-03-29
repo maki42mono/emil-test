@@ -5,19 +5,26 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Builder\DiscountServiceBuilder;
+use App\Builder\PriceBuilder;
 use App\Model\CalculatePriceModel;
+use App\Model\PriceModel;
 
 readonly class PriceService
 {
-    public function calculatePrice(CalculatePriceModel $calculatePrice): int
+    private function calculatePriceWithDiscount(CalculatePriceModel $calculatePrice): PriceModel
     {
-        $product = $calculatePrice->product;
         $discount = $calculatePrice->discount;
+        $priceModel = $calculatePrice->getPriceModel();
         if (empty($discount)) {
-            return $product->getPrice();
+            return $priceModel;
         }
-        $discountService = DiscountServiceBuilder::getDiscountService($product, $discount);
+        $discountService = DiscountServiceBuilder::getDiscountService($priceModel, $discount);
 
         return $discountService->getPriceWithDiscount();
+    }
+
+    private function calculatePriceWithTax(): PriceModel
+    {
+
     }
 }

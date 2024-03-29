@@ -5,17 +5,18 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Exceptions\ClientException;
+use App\Model\PriceModel;
 
 class FixedDiscountService extends AbstractDiscountService
 {
     /**
      * @throws ClientException
      */
-    public function getPriceWithDiscount(): int
+    public function getPriceWithDiscount(): PriceModel
     {
-        $result = $this->product->getPrice() - $this->discount->getValue();
+        $result = $this->priceModel->price - $this->discount->getValue();
         if ($result >= 0) {
-            return $result;
+            return new PriceModel($result);
         }
 
         throw new ClientException(null, ClientException::NEGATIVE_DISCOUNT);

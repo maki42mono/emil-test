@@ -30,6 +30,8 @@ readonly class CalculatePriceBuilder
             throw new ClientException('', ClientException::PRODUCT_NOT_FOUND);
         }
         $discount = $priceRequest->couponCode ? $this->discountRepository->findByCode($priceRequest->couponCode) : null;
-        return new CalculatePriceModel($priceRequest, $product, $discount);
+        $priceModel = PriceBuilder::buildFromProduct($product);
+        $country = substr($priceRequest->taxNumber, 0, 2);
+        return new CalculatePriceModel($priceModel, $country, $discount);
     }
 }

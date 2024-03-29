@@ -29,7 +29,7 @@ class ExceptionListener
             $response = new JsonResponse($data);
             $response->setStatusCode($exception->getCode());
             $event->setResponse($response);
-        } else if ($this->env !== 'dev') {
+        } else if ($this->env === 'prod') {
             $response = new JsonResponse([
                 'success' => false,
                 'message' => 'Oops... something went wrong'

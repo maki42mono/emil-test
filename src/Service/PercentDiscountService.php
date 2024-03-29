@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Model\PriceModel;
+
 class PercentDiscountService extends AbstractDiscountService
 {
-    public function getPriceWithDiscount(): int
+    public function getPriceWithDiscount(): PriceModel
     {
-        return intval(
-            (100 - ($this->discount->getValue() / 100)) * $this->product->getPrice()
+        $result = intval(
+            (100 - ($this->discount->getValue() / 100)) * $this->priceModel->price
         );
+
+        return new PriceModel($result);
     }
 }
