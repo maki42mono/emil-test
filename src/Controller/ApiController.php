@@ -35,7 +35,7 @@ class ApiController extends AbstractController
         $priceRequest = new PriceRequest(
             $requestArray['product'],
             $requestArray['taxNumber'],
-            $requestArray['couponCode'],
+            $requestArray['couponCode'] ?? null,
             $discountRepository
         );
         $violations = $validator->validate($priceRequest);

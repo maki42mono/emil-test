@@ -19,20 +19,18 @@ readonly class PriceRequest
         public string $taxNumber,
         public ?string $couponCode,
         private DiscountRepository $discountRepository
-    )
-    {
+    ) {
     }
 
     #[Assert\Callback]
-    public function validate(ExecutionContextInterface $context, mixed $payload): void
+    public function validate(ExecutionContextInterface $context): void
     {
         $codes = $this->discountRepository->findAllCodes();
-        if (!array_key_exists($this->couponCode, $codes)) {
+        if (isset($this->couponCode) && !array_key_exists($this->couponCode, $codes)) {
             $context
                 ->buildViolation('The coupon is not valid')
                 ->atPath('couponCode')
-                ->addViolation()
-            ;
+                ->addViolation();
         }
     }
 }

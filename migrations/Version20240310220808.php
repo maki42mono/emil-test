@@ -24,9 +24,9 @@ final class Version20240310220808 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        $this->connection->insert('product', ['name' => 'Iphone', 'price' => 100]);
-        $this->connection->insert('product', ['name' => 'Наушники', 'price' => 20]);
-        $this->connection->insert('product', ['name' => 'Чехол', 'price' => 10]);
+        $this->connection->insert('product', ['name' => 'Iphone', 'price' => 10000]);
+        $this->connection->insert('product', ['name' => 'Наушники', 'price' => 2000]);
+        $this->connection->insert('product', ['name' => 'Чехол', 'price' => 1000]);
     }
 
     public function down(Schema $schema): void
