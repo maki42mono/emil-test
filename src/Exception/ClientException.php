@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Exceptions;
+namespace App\Exception;
 
 class ClientException extends AbstractPublicException
 {

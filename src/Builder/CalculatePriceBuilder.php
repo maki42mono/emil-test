@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Builder;
 
 use App\Dto\PriceRequest;
-use App\Exceptions\ClientException;
+use App\Exception\ClientException;
 use App\Model\CalculatePriceModel;
 use App\Repository\DiscountRepository;
 use App\Repository\ProductRepository;

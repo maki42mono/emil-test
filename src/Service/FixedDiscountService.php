@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Exceptions\ClientException;
+use App\Exception\ClientException;
 use App\Model\PriceModel;
 
 class FixedDiscountService extends AbstractDiscountService

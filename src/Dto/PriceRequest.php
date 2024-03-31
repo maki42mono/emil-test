@@ -8,18 +8,27 @@ use App\Repository\DiscountRepository;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
-readonly class PriceRequest
+class PriceRequest
 {
+    #[Assert\NotBlank]
+    #[Assert\GreaterThanOrEqual(1)]
+    protected int $productId;
+    #[Assert\NotBlank]
+    #[Assert\Regex('/^DE\d{9}$|^IT\d{11}$|^FR\w{2}\d{9}$/')]
+    protected string $taxNumber;
+    protected ?string $couponCode;
+    protected DiscountRepository $discountRepository;
+
     public function __construct(
-        #[Assert\NotBlank]
-        #[Assert\GreaterThanOrEqual(1)]
-        public int $productId,
-        #[Assert\NotBlank]
-        #[Assert\Regex('/^DE\d{9}$|^IT\d{11}$|^FR\w{2}\d{9}$/')]
-        public string $taxNumber,
-        public ?string $couponCode,
-        private DiscountRepository $discountRepository
+        int $productId,
+        string $taxNumber,
+        ?string $couponCode,
+        DiscountRepository $discountRepository
     ) {
+        $this->productId = $productId;
+        $this->taxNumber = $taxNumber;
+        $this->couponCode = $couponCode;
+        $this->discountRepository = $discountRepository;
     }
 
     #[Assert\Callback]
@@ -32,5 +41,20 @@ readonly class PriceRequest
                 ->atPath('couponCode')
                 ->addViolation();
         }
+    }
+
+    public function getProductId(): int
+    {
+        return $this->productId;
+    }
+
+    public function getTaxNumber(): string
+    {
+        return $this->taxNumber;
+    }
+
+    public function getCouponCode(): ?string
+    {
+        return $this->couponCode;
     }
 }
