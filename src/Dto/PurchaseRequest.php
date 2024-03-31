@@ -5,29 +5,23 @@ declare(strict_types=1);
 namespace App\Dto;
 
 use App\Repository\DiscountRepository;
+use App\Service\payment\PaymentService;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class PurchaseRequest extends PriceRequest
+readonly class PurchaseRequest
 {
-    public const PAYMENTS = [
-        'paypal' => 1,
-        'stripe' => 2,
-    ];
+    #[Assert\Valid]
+    public PriceRequest $priceRequest;
 
     public function __construct(
         int $productId,
         string $taxNumber,
         ?string $couponCode,
         #[Assert\NotBlank]
-        #[Assert\Choice(callback: 'getPayments', message: 'Choose a valid genre.')]
-        public readonly string $paymentProcessor,
+        #[Assert\Choice(choices: PaymentService::SERVICES, message: 'Choose a valid payment service.')]
+        public string $paymentProcessor,
         DiscountRepository $discountRepository
     ) {
-        parent::__construct($productId, $taxNumber, $couponCode, $discountRepository);
-    }
-
-    public static function getPayments(): array
-    {
-        return array_keys(self::PAYMENTS);
+        $this->priceRequest = new PriceRequest($productId, $taxNumber, $couponCode, $discountRepository);
     }
 }

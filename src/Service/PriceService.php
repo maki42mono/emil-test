@@ -4,15 +4,25 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Builder\CalculatePriceBuilder;
 use App\Builder\DiscountServiceBuilder;
-use App\Builder\PriceBuilder;
+use App\Dto\PriceRequest;
+use App\Exception\ClientException;
 use App\Model\CalculatePriceModel;
 use App\Model\PriceModel;
 
 readonly class PriceService
 {
-    public function calculate(CalculatePriceModel $calculatePrice): PriceModel
+    public function __construct(private CalculatePriceBuilder $calculatePriceBuilder)
     {
+    }
+
+    /**
+     * @throws ClientException
+     */
+    public function calculate(PriceRequest $priceRequest): PriceModel
+    {
+        $calculatePrice = $this->calculatePriceBuilder->buildFromPriceRequestDto($priceRequest);
         $calculatePrice = $this->calculatePriceWithDiscount($calculatePrice);
 
         return $this->calculatePriceWithTax($calculatePrice)->getPriceModel();

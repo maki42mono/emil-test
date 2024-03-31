@@ -2,20 +2,18 @@
 
 namespace App\Controller;
 
-use App\Builder\CalculatePriceBuilder;
 use App\Dto\PriceRequest;
 use App\Dto\PriceResponse;
 use App\Dto\PurchaseRequest;
 use App\Exception\ClientException;
 use App\Repository\DiscountRepository;
+use App\Service\payment\PaymentService;
 use App\Service\PriceService;
 use App\Validator\APIValidator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Systemeio\TestForCandidates\PaymentProcessor\PaypalPaymentProcessor;
-use Systemeio\TestForCandidates\PaymentProcessor\StripePaymentProcessor;
 
 class ApiController extends AbstractController
 {
@@ -26,7 +24,6 @@ class ApiController extends AbstractController
     public function calculatePrice(
         Request $request,
         PriceService $priceService,
-        CalculatePriceBuilder $calculatePriceBuilder,
         DiscountRepository $discountRepository,
         APIValidator $validator
     ): Response {
@@ -38,8 +35,7 @@ class ApiController extends AbstractController
             $discountRepository
         );
         $validator->validate($priceRequest);
-        $calculatePrice = $calculatePriceBuilder->buildFromPriceRequestDto($priceRequest);
-        $priceResponse = new PriceResponse($priceService->calculate($calculatePrice));
+        $priceResponse = new PriceResponse($priceService->calculate($priceRequest));
 
         return $this->json($priceResponse);
     }
@@ -50,8 +46,7 @@ class ApiController extends AbstractController
     #[Route('/purchase', methods: ['POST'])]
     public function purchase(
         Request $request,
-        PriceService $priceService,
-        CalculatePriceBuilder $calculatePriceBuilder,
+        PaymentService $paymentService,
         DiscountRepository $discountRepository,
         APIValidator $validator
     ): Response {
@@ -60,11 +55,12 @@ class ApiController extends AbstractController
             $requestArray['product'],
             $requestArray['taxNumber'],
             $requestArray['couponCode'] ?? null,
-            $requestArray['paymentProcessor'] ?? null,
+            $requestArray['paymentProcessor'],
             $discountRepository
         );
         $validator->validate($purchaseRequest);
+        $paymentService->proceed($purchaseRequest);
 
-        return $this->json([1 => 2]);
+        return (new Response())->setStatusCode(200);
     }
 }
