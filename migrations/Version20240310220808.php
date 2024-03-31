@@ -4,13 +4,8 @@ declare(strict_types=1);
 
 namespace DoctrineMigrations;
 
-use App\Entity\Product;
-use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManagerInterface;
-use Psr\Log\LoggerInterface;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
@@ -27,6 +22,7 @@ final class Version20240310220808 extends AbstractMigration
         $this->connection->insert('product', ['name' => 'Iphone', 'price' => 10000]);
         $this->connection->insert('product', ['name' => 'Наушники', 'price' => 2000]);
         $this->connection->insert('product', ['name' => 'Чехол', 'price' => 1000]);
+        $this->connection->insert('product', ['name' => 'Автомобиль', 'price' => 10000000]);
     }
 
     public function down(Schema $schema): void
