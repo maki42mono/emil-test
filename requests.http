@@ -1,0 +1,88 @@
+### Calculate Price
+POST https://127.0.0.1:8000/calculate-price
+Accept: application/json
+Content-Type: application/json
+
+{
+  "product": 2,
+  "taxNumber": "FRAA123456789",
+  "couponCode": "XXX"
+}
+
+### Calculate Price Validation Errors
+POST https://127.0.0.1:8000/calculate-price
+Accept: application/json
+Content-Type: application/json
+
+{
+  "product": -12,
+  "taxNumber": "FRAA123456789aa",
+  "couponCode": "RAINds"
+}
+
+### Calculate Price Product not found
+POST https://127.0.0.1:8000/calculate-price
+Accept: application/json
+Content-Type: application/json
+
+{
+  "product": 17,
+  "taxNumber": "FRAA123456789",
+  "couponCode": "RAIN"
+}
+
+### Calculate Price Product not found
+POST https://127.0.0.1:8000/calculate-price
+Accept: application/json
+Content-Type: application/json
+
+{
+  "product": 3,
+  "taxNumber": "FRAA123456789",
+  "couponCode": "DOLLARS"
+}
+
+### Execute Purchase
+POST https://127.0.0.1:8000/purchase
+Accept: application/json
+Content-Type: application/json
+
+{
+  "product": 1,
+  "taxNumber": "IT12345678900",
+  "paymentProcessor": "paypal"
+}
+
+### Execute Purchase Error paypal
+POST https://127.0.0.1:8000/purchase
+Accept: application/json
+Content-Type: application/json
+
+{
+  "product": 4,
+  "taxNumber": "IT12345678900",
+  "paymentProcessor": "paypal"
+}
+
+### Execute Purchase Error stripe
+POST https://127.0.0.1:8000/purchase
+Accept: application/json
+Content-Type: application/json
+
+{
+  "product": 2,
+  "taxNumber": "IT12345678900",
+  "paymentProcessor": "stripe"
+}
+
+### Execute Purchase validation errors
+POST https://127.0.0.1:8000/purchase
+Accept: application/json
+Content-Type: application/json
+
+{
+  "product": -12,
+  "taxNumber": "FRAA123456789aa",
+  "couponCode": "RAINds",
+  "paymentProcessor": "apple"
+}
