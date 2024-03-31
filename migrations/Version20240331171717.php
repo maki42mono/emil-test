@@ -27,6 +27,7 @@ final class Version20240331171717 extends AbstractMigration
         $this->connection->insert('discount', ['code' => 'AAA', 'type' => 2, 'value' => 100]);
         $this->connection->insert('discount', ['code' => 'SAD', 'type' => 2, 'value' => 199]);
         $this->connection->insert('discount', ['code' => 'RAIN', 'type' => 2, 'value' => 499]);
+        $this->connection->insert('discount', ['code' => 'DOLLARS', 'type' => 2, 'value' => 10000]);
     }
 
     public function down(Schema $schema): void

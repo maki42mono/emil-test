@@ -28,7 +28,7 @@ readonly class PriceRequest
         $codes = $this->discountRepository->findAllCodes();
         if (isset($this->couponCode) && !array_key_exists($this->couponCode, $codes)) {
             $context
-                ->buildViolation('The coupon is not valid')
+                ->buildViolation('The coupon is not valid.')
                 ->atPath('couponCode')
                 ->addViolation();
         }
