@@ -27,3 +27,8 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.exception }
         arguments: ['%env(string:APP_ENV)%']
+
+    App\Validator\Constraints\CouponValidator:
+#        tags:
+#            - { name: validator.coupon_validator }
+        arguments: ['@App\Repository\DiscountRepository']

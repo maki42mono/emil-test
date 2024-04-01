@@ -9,7 +9,7 @@ use App\Model\PriceModel;
 
 class PriceBuilder
 {
-    public static function buildFromProduct(Product $product)
+    public static function buildFromProduct(Product $product): PriceModel
     {
         return new PriceModel($product->getPrice());
     }
