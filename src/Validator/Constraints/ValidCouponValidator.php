@@ -16,10 +16,14 @@ class ValidCouponValidator extends ConstraintValidator
 
     public function validate(mixed $value, Constraint $constraint): void
     {
-        $dicount = $this->discountRepository->findByCode($value);
-        if (empty($dicount)) {
+        if (empty($value)) {
+            return;
+        }
+        $discount = $this->discountRepository->findByCode($value);
+        if (empty($discount)) {
             $this->context
-                ->buildViolation('The coupon is not valid.')
+                ->buildViolation($constraint->message)
+                ->setParameter('{{ string }}', $value)
                 ->atPath('couponCode')
                 ->addViolation();
         }

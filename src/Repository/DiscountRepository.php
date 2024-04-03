@@ -21,7 +21,7 @@ class DiscountRepository extends ServiceEntityRepository
         parent::__construct($registry, Discount::class);
     }
 
-    public function findByCode(string $code): ?Discount
+    public function findByCode(?string $code = null): ?Discount
     {
         return $this->createQueryBuilder('d')
             ->andWhere('d.code = :code')

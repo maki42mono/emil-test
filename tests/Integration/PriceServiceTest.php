@@ -59,7 +59,7 @@ class PriceServiceTest extends KernelTestCase
 
     public function priceRequestDataProvider(): Generator
     {
-        yield 'No coupon' => ['Iphone', 10000, 'FRAA123456789', 120.0, null, null];
+        yield 'No coupon' => ['Iphone', 10000, 'FRAA123456789', 120.0];
         yield 'Percent coupon' => ['Iphone', 10000, 'DE123456789', 107.1, 1, 1000];
         yield 'Fixed coupon' => ['Iphone', 10000, 'IT12345678900', 96.39, 2, 2099];
     }

@@ -9,6 +9,17 @@ Content-Type: application/json
   "couponCode": "XXX"
 }
 
+### Calculate Price, Negative price
+POST https://127.0.0.1:8000/calculate-price
+Accept: application/json
+Content-Type: application/json
+
+{
+  "product": 3,
+  "taxNumber": "FRAA123456789",
+  "couponCode": "DOLLARS"
+}
+
 ### Calculate Price Validation Errors
 POST https://127.0.0.1:8000/calculate-price
 Accept: application/json

@@ -27,7 +27,7 @@ readonly class CalculatePriceBuilder
     {
         $product = $this->productRepository->find($priceRequest->productId);
         if (!$product) {
-            throw new ClientException('', ClientException::PRODUCT_NOT_FOUND);
+            throw new ClientException( ClientException::PRODUCT_NOT_FOUND);
         }
         $discount = $priceRequest->couponCode ? $this->discountRepository->findByCode($priceRequest->couponCode) : null;
         $priceModel = PriceBuilder::buildFromProduct($product);
