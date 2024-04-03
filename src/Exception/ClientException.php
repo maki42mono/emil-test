@@ -10,6 +10,7 @@ class ClientException extends AbstractPublicException
     public const REQUEST_DATA = "Incorrect request data";
     public const PRODUCT_NOT_FOUND = "Product not found";
     public const STRIPE_PAYMENT_ERROR = "The price is too low";
+    public const PAYPAL_PAYMENT_ERROR = "The price is too high";
 
     public function __construct(string $message, array $payload = [])
     {
