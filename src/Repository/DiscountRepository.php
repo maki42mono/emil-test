@@ -21,25 +21,12 @@ class DiscountRepository extends ServiceEntityRepository
         parent::__construct($registry, Discount::class);
     }
 
-    /**
-     * @return string[]
-     */
-    public function findAllCodes(): array
-    {
-        $codes = $this->createQueryBuilder('d')
-            ->select('d.code')
-            ->getQuery()
-            ->getScalarResult();
-
-        return array_flip(array_column($codes, 'code'));
-    }
-
-    public function findByCode(string $code): Discount
+    public function findByCode(?string $code = null): ?Discount
     {
         return $this->createQueryBuilder('d')
             ->andWhere('d.code = :code')
             ->setParameter('code', $code)
             ->getQuery()
-            ->getSingleResult();
+            ->getOneOrNullResult();
     }
 }

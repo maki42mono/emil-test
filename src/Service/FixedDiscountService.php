@@ -19,6 +19,6 @@ class FixedDiscountService extends AbstractDiscountService
             return new PriceModel($result);
         }
 
-        throw new ClientException(null, ClientException::NEGATIVE_DISCOUNT);
+        throw new ClientException( ClientException::NEGATIVE_DISCOUNT);
     }
 }

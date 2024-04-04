@@ -14,8 +14,8 @@ class PaypalPaymentService extends PaypalPaymentProcessor implements PaymentInte
     {
         try {
             $this->pay(intval($price));
-        } catch (Exception $e) {
-            throw new ClientException($e->getMessage());
+        } catch (Exception) {
+            throw new ClientException(ClientException::PAYPAL_PAYMENT_ERROR);
         }
     }
 }

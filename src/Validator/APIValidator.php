@@ -26,7 +26,7 @@ class APIValidator extends TraceableValidator
             foreach ($violations as $violation) {
                 $errorMessages[$violation->getPropertyPath()] = $violation->getMessage();
             }
-            throw new ClientException('', ClientException::REQUEST_DATA, $errorMessages);
+            throw new ClientException( ClientException::REQUEST_DATA, $errorMessages);
         }
 
         return $violations;

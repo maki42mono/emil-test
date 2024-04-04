@@ -12,7 +12,7 @@ class StripePaymentService extends StripePaymentProcessor implements PaymentInte
     public function proceed(float $price): void
     {
         if (!$this->processPayment($price)) {
-            throw new ClientException('', ClientException::STRIPE_PAYMENT_ERROR);
+            throw new ClientException(ClientException::STRIPE_PAYMENT_ERROR);
         }
     }
 }

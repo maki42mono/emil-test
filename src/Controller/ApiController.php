@@ -24,7 +24,6 @@ class ApiController extends AbstractController
     public function calculatePrice(
         Request $request,
         PriceService $priceService,
-        DiscountRepository $discountRepository,
         APIValidator $validator
     ): Response {
         $requestArray = $request->toArray();
@@ -32,7 +31,6 @@ class ApiController extends AbstractController
             $requestArray['product'],
             $requestArray['taxNumber'],
             $requestArray['couponCode'] ?? null,
-            $discountRepository
         );
         $validator->validate($priceRequest);
         $priceResponse = new PriceResponse($priceService->calculate($priceRequest));
@@ -47,16 +45,14 @@ class ApiController extends AbstractController
     public function purchase(
         Request $request,
         PaymentService $paymentService,
-        DiscountRepository $discountRepository,
         APIValidator $validator
     ): Response {
         $requestArray = $request->toArray();
         $purchaseRequest = new PurchaseRequest(
             $requestArray['product'],
             $requestArray['taxNumber'],
-            $requestArray['couponCode'] ?? null,
             $requestArray['paymentProcessor'],
-            $discountRepository
+            $requestArray['couponCode'] ?? null
         );
         $validator->validate($purchaseRequest);
         $paymentService->proceed($purchaseRequest);

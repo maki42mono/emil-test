@@ -16,12 +16,11 @@ readonly class PurchaseRequest
     public function __construct(
         int $productId,
         string $taxNumber,
-        ?string $couponCode,
         #[Assert\NotBlank]
         #[Assert\Choice(choices: PaymentService::SERVICES, message: 'Choose a valid payment service.')]
         public string $paymentProcessor,
-        DiscountRepository $discountRepository
+        ?string $couponCode = null
     ) {
-        $this->priceRequest = new PriceRequest($productId, $taxNumber, $couponCode, $discountRepository);
+        $this->priceRequest = new PriceRequest($productId, $taxNumber, $couponCode);
     }
 }
