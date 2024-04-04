@@ -1,5 +1,5 @@
 ### Calculate Price
-POST https://127.0.0.1:8000/calculate-price
+POST https://127.0.0.1:7777/calculate-price
 Accept: application/json
 Content-Type: application/json
 
@@ -10,7 +10,7 @@ Content-Type: application/json
 }
 
 ### Calculate Price, Negative price
-POST https://127.0.0.1:8000/calculate-price
+POST https://127.0.0.1:7777/calculate-price
 Accept: application/json
 Content-Type: application/json
 
@@ -21,7 +21,7 @@ Content-Type: application/json
 }
 
 ### Calculate Price Validation Errors
-POST https://127.0.0.1:8000/calculate-price
+POST https://127.0.0.1:7777/calculate-price
 Accept: application/json
 Content-Type: application/json
 
@@ -32,7 +32,7 @@ Content-Type: application/json
 }
 
 ### Calculate Price Product not found
-POST https://127.0.0.1:8000/calculate-price
+POST https://127.0.0.1:7777/calculate-price
 Accept: application/json
 Content-Type: application/json
 
@@ -43,7 +43,7 @@ Content-Type: application/json
 }
 
 ### Calculate Price Product not found
-POST https://127.0.0.1:8000/calculate-price
+POST https://127.0.0.1:7777/calculate-price
 Accept: application/json
 Content-Type: application/json
 
@@ -54,7 +54,7 @@ Content-Type: application/json
 }
 
 ### Execute Purchase
-POST https://127.0.0.1:8000/purchase
+POST https://127.0.0.1:7777/purchase
 Accept: application/json
 Content-Type: application/json
 
@@ -65,7 +65,7 @@ Content-Type: application/json
 }
 
 ### Execute Purchase Error paypal
-POST https://127.0.0.1:8000/purchase
+POST https://127.0.0.1:7777/purchase
 Accept: application/json
 Content-Type: application/json
 
@@ -76,7 +76,7 @@ Content-Type: application/json
 }
 
 ### Execute Purchase Error stripe
-POST https://127.0.0.1:8000/purchase
+POST https://127.0.0.1:7777/purchase
 Accept: application/json
 Content-Type: application/json
 
@@ -87,7 +87,7 @@ Content-Type: application/json
 }
 
 ### Execute Purchase validation errors
-POST https://127.0.0.1:8000/purchase
+POST https://127.0.0.1:7777/purchase
 Accept: application/json
 Content-Type: application/json
 
